@@ -49,6 +49,7 @@ func Config(path string) (port, socksPort string) {
 			socksPort = key.String()
 		}
 	}
+	Logger.Info("load [General] success")
 	// Proxy
 	var servers map[string]interface{}
 	{
@@ -59,8 +60,12 @@ func Config(path string) (port, socksPort string) {
 		}
 		keys := proxy.Keys()
 		servers = make(map[string]interface{})
-		servers[PolicyDirect] = nil
-		servers[PolicyReject] = nil
+		servers[PolicyDirect] = &Server{
+			Name:PolicyDirect,
+		}
+		servers[PolicyReject] = &Server{
+			Name:PolicyReject,
+		}
 		var (
 			vs []string
 			ok bool
@@ -80,6 +85,7 @@ func Config(path string) (port, socksPort string) {
 			}
 		}
 	}
+	Logger.Info("load [Proxy] success")
 	// Proxy Group
 	{
 		proxy, err := cfg.GetSection("Proxy Group")
@@ -104,7 +110,7 @@ func Config(path string) (port, socksPort string) {
 			group = groups[i]
 			vs = k.Strings(",")
 			group.SelectType = vs[0]
-			group.Servers = make([]interface{}, len(vs))
+			group.Servers = make([]interface{}, len(vs)-1)
 			if !CheckSelectorType(vs[0]) {
 				Logger.Error("Not support group select type:", vs[0])
 				os.Exit(1)
@@ -130,6 +136,7 @@ func Config(path string) (port, socksPort string) {
 			os.Exit(1)
 		}
 	}
+	Logger.Info("load [Proxy Group] success")
 
 	//Host
 	{
@@ -149,16 +156,16 @@ func Config(path string) (port, socksPort string) {
 		}
 		ResetLocalDNS(hosts)
 	}
+	Logger.Info("load [Host] success")
 
 	//Rule
 	{
 		rule, err := cfg.GetSection("Rule")
 		if err != nil {
-			Logger.Error("Fail to read [Rule]: ", err)
+			Logger.Error("Fail to read [Rule]: ", err.Error())
 			os.Exit(1)
 		}
-		lines := strings.Split(rule.Body(), "\n")
-
+		lines := strings.Split(rule.Key("rules").String(), ";")
 		var (
 			rules = make([]*Rule, len(lines))
 			geoIP = make([]*Rule, 0, 8)
@@ -196,10 +203,11 @@ func Config(path string) (port, socksPort string) {
 				i ++
 			}
 		}
-		rules = rules[:i+1]
+		rules = rules[:i]
 		rules = append(rules, geoIP...)
 		rules = append(rules, final)
 		RuleReset(rules)
 	}
+	Logger.Info("load [Rule] success")
 	return
 }

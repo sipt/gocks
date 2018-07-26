@@ -22,8 +22,6 @@ func init() {
 			var (
 				sg         *core.ServerGroup
 				s          *core.Server
-				min        *core.Server
-				minTime, t time.Duration
 				ok         bool
 			)
 			for {
@@ -33,22 +31,29 @@ func init() {
 				case <-selector.cancel:
 					return
 				}
+				reply := make(chan *core.Server, 1)
 				for _, v := range selector.group.Servers {
 					if sg, ok = v.(*core.ServerGroup); ok {
 						s, _ = sg.Selector.Get("")
 					} else {
 						s = v.(*core.Server)
 					}
-					t = urlTest(s)
-					if minTime > t {
-						min = s
-						minTime = t
-					}
+					go func(s *core.Server){
+						err := urlTest(s)
+						if err == nil{
+							select{
+							case reply <- s:
+							default:
+							}
+						}
+					}(s)
 				}
-				selector.selected = min
-				minTime = time.Hour
+				selector.selected = <-reply
+				s = selector.selected.(*core.Server)
+				core.Logger.Info("[Delay] Group ["+selector.group.Name+"] url-test select ["+s.Name+"]")
 			}
 		}()
+		selector.resetChan <- true // start select
 		return selector, nil
 	})
 }
@@ -105,17 +110,16 @@ func (d *delaySelector) Stop() {
 
 const url = "http://www.gstatic.com/generate_204"
 
-func urlTest(s *core.Server) time.Duration {
-	start := time.Now()
+func urlTest(s *core.Server) error{
 	tr := &http.Transport{
 		DialContext: func(_ context.Context, _, addr string) (net.Conn, error) {
 			return s.Conn(addr)
 		},
 	}
-	client := &http.Client{Transport: tr}
+	client := &http.Client{Transport: tr, Timeout: 2*time.Second}
 	resp, err := client.Get(url)
-	if err != nil || resp.Status != "204" {
-		return time.Hour
+	if err != nil || resp.StatusCode != 204 {
+		return err
 	}
-	return time.Now().Sub(start)
+	return err
 }

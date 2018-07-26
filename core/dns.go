@@ -5,6 +5,7 @@ import (
 	"regexp"
 	"github.com/miekg/dns"
 	"net"
+	"sync"
 )
 
 var (
@@ -55,6 +56,8 @@ func LookupIP(req *Request) {
 	}
 }
 
+var lock sync.Mutex
+
 func resolve(host string) ([]string, error) {
 	c := new(dns.Client)
 	m := new(dns.Msg)
@@ -63,7 +66,9 @@ func resolve(host string) ([]string, error) {
 
 	ips := make([]string, 0)
 	for _, v := range dnsServers {
+		lock.Lock()
 		r, _, _ := c.Exchange(m, net.JoinHostPort(v, "53"))
+		lock.Unlock()
 		if r == nil || r.Rcode != dns.RcodeSuccess {
 			continue
 		}
@@ -79,5 +84,7 @@ func resolve(host string) ([]string, error) {
 	}
 
 	// Stuff must be in the answer section
-	return ips, nil
+	Logger.Debug("[DNS] resolve: ", host, " -> ", ips)
+	//return ips, nil
+	return []string{}, nil
 }

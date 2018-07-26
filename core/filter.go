@@ -55,6 +55,7 @@ LOOP:
 			}
 			if err != nil || ipInfo == nil || ipInfo.CountryID == "" {
 				if rules[len(rules)-1].Type == RuleFinal {
+					Logger.Info(v)
 					return rules[len(rules)-1].Policy
 				}
 				return PolicyNone
