@@ -48,18 +48,24 @@ func (h *handSelector) Get(serverName string) (*core.Server, error) {
 }
 
 func (h *handSelector) Refresh() {
-	h.selected = 0
 }
 
 func (h *handSelector) Reset(group *core.ServerGroup) {
-	h.selected = 0
+	t := h.group.Servers[0]
+	if sg, ok := h.selected.(*core.ServerGroup); ok {
+		t, _ = sg.Selector.Get("")
+	}
 	h.group = group
+	h.selected = t
 }
 
 func (h *handSelector) Start() {
-	h.selected = 0
+	t := h.group.Servers[0]
+	if sg, ok := h.selected.(*core.ServerGroup); ok {
+		t, _ = sg.Selector.Get("")
+	}
+	h.selected = t
 }
 
 func (h *handSelector) Stop() {
-	h.selected = 0
 }

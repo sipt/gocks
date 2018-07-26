@@ -12,8 +12,8 @@ func main() {
 }
 
 func startProxy() {
-	port, _ := core.Config("./sipt.ini")
-	listener, err := net.Listen("tcp", port)
+	port, _ := core.Config("~/Documents/sipt.ini")
+	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		panic(err)
 	}
@@ -24,11 +24,11 @@ func startProxy() {
 			fmt.Println(err)
 		}
 		go func() {
-			defer func() {
-				if r := recover(); r != nil {
-					core.Logger.Error("[UNKNOWN] ", err)
-				}
-			}()
+			//defer func() {
+			//	if r := recover(); r != nil {
+			//		core.Logger.Error("[UNKNOWN] ", r)
+			//	}
+			//}()
 			err = core.TCPProxy(core.NewConn("tcp", conn))
 			if err != nil {
 				core.Logger.Error("[UNKNOWN] ", err)

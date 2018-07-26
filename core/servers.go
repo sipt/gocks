@@ -5,6 +5,7 @@ import (
 	"fmt"
 	ss "github.com/shadowsocks/shadowsocks-go/shadowsocks"
 	"errors"
+	"github.com/sipt/gocks/core/plugin"
 )
 
 const EmptyString = ""
@@ -27,17 +28,23 @@ type Server struct {
 	Password string
 	Method   string
 }
-
 var serverBucket map[string]interface{}
 
 func ResetServers(groups []*ServerGroup) error {
 	bucket := make(map[string]interface{}, len(groups))
 	var ok bool
 	var s *Server
+	var err error
 	for i, v := range groups {
 		if _, ok = bucket[v.Name]; ok {
 			return errors.New("duplication of server name")
 		}
+		v.Selector, err = selectorMap[v.SelectType](v)
+		if err != nil {
+			bucket = nil
+			return err
+		}
+		go v.Selector.Start()
 		bucket[v.Name] = groups[i]
 
 		for _, j := range v.Servers {
@@ -96,6 +103,13 @@ func HandSelect(groupName, serverName string) error {
 }
 
 func (s *Server) Conn(host string) (net.Conn, error) {
+	if s.Name == PolicyReject{
+		return plugin.RejectConn, nil
+	}
+	if s.Name == PolicyDirect{
+		return net.Dial("tcp", host)
+	}
+
 	rawAddr, err := ss.RawAddr(host)
 	if err != nil {
 		panic("Error getting raw address.")

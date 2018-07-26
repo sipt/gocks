@@ -31,6 +31,16 @@ func NewConnByReq(lc *Conn, req *http.Request) (net.Conn, error) {
 		host: req.URL.Hostname(),
 		port: req.URL.Port(),
 	}
+
+	//dns
+	LookupIP(request)
+	if len(request.ips) == 0 {
+		request.addr = request.host
+	} else {
+		request.addr = request.ips[0]
+	}
+	lc.PutValue(NameRemote, request.addr)
+
 	policy := connFilter(request)
 	lc.PutValue(NamePolicy, policy)
 	if policy == PolicyReject { //reject
@@ -48,30 +58,15 @@ func NewConnByReq(lc *Conn, req *http.Request) (net.Conn, error) {
 		}
 	case "socks":
 	}
-
-	//dns
-	LookupIP(request)
-
-	if len(request.ips) == 0 {
-		request.addr = request.host
-	} else {
-		request.addr = request.ips[0]
-	}
-	lc.PutValue(NameRemote, request.addr)
 	var (
 		conn net.Conn
 		err  error
 	)
 	request.addr = net.JoinHostPort(request.addr, request.port)
-	switch policy {
-	case PolicyDirect, PolicyNone: //direct
-		conn, err = net.Dial("tcp", request.addr)
-	default: //proxy
-		s := getServer(policy)
-		lc.PutValue(NamePolicy, "Custom[PROXY]")
-		lc.PutValue(NameProxy, s.Name)
-		conn, err = s.Conn(request.addr)
-	}
+	s := getServer(policy)
+	lc.PutValue(NamePolicy, policy)
+	lc.PutValue(NameProxy, s.Name)
+	conn, err = s.Conn(request.addr)
 	return conn, err
 }
 
