@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0602f8e-3904-40f3-9247-ea7d99a5b2be" name="Default" comment="" />
+    <list default="true" id="d0602f8e-3904-40f3-9247-ea7d99a5b2be" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,15 +45,6 @@
               <folding>
                 <element signature="e#14#40#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="proxy.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/proxy.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="67" column="49" selection-start-line="67" selection-start-column="49" selection-end-line="67" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -100,11 +94,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/config.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="75" column="32" lean-forward="true" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="32" />
+            <state relative-caret-position="285">
+              <caret line="68" column="31" lean-forward="true" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="21">
+              <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -177,6 +180,9 @@
     </dirStrings>
   </component>
   <component name="GOROOT" path="/usr/local/Cellar/go/1.9.3/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -222,6 +228,7 @@
         <option value="$PROJECT_DIR$/core/servers.go" />
         <option value="$PROJECT_DIR$/core/selector/hand.go" />
         <option value="$PROJECT_DIR$/core/config.go" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -239,6 +246,7 @@
     <option name="width" value="1680" />
     <option name="height" value="1028" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -251,21 +259,6 @@
             <path>
               <item name="gocks" type="b2602c69:ProjectViewProjectNode" />
               <item name="gocks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gocks" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gocks" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-              <item name="selector" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gocks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -357,14 +350,14 @@
     <frame x="0" y="22" width="1680" height="1028" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.23870574" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.23870574" />
       <window_info anchor="bottom" id="TODO" order="9" weight="0.44596013" />
       <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
       <window_info anchor="right" id="Database" order="0" weight="0.32962668" />
       <window_info anchor="bottom" id="Find" order="4" />
       <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.33834586" />
-      <window_info anchor="bottom" id="Version Control" order="2" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="5" visible="true" weight="0.33834586" />
+      <window_info anchor="bottom" id="Version Control" order="2" />
       <window_info anchor="right" id="Structure" order="4" weight="0.31135532" />
       <window_info anchor="right" id="Terminal" order="5" visible="true" weight="0.2948718" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.39957035" />
@@ -389,13 +382,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../golang.org/x/crypto/pkcs12/pkcs12.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-702">
-          <caret line="211" column="5" selection-start-line="211" selection-start-column="5" selection-end-line="211" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/go/1.9.3/libexec/src/net/http/client.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
@@ -753,8 +739,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/config.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="75" column="32" lean-forward="true" selection-start-line="75" selection-start-column="32" selection-end-line="75" selection-end-column="32" />
+        <state relative-caret-position="285">
+          <caret line="68" column="31" lean-forward="true" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="6" lean-forward="true" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
         </state>
       </provider>
     </entry>
