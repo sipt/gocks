@@ -80,11 +80,13 @@ func resolve(host string) ([]string, error) {
 				ips = append(ips, a.A.String())
 			}
 		}
-		break
+		if len(ips) > 0 {
+			Logger.Debug("DNS[",v,"] resolve: ", host, " -> ", ips)
+			break
+		}
 	}
 
 	// Stuff must be in the answer section
-	Logger.Debug("[DNS] resolve: ", host, " -> ", ips)
 	//return ips, nil
 	return []string{}, nil
 }
