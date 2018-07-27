@@ -12,7 +12,7 @@ func main() {
 }
 
 func startProxy() {
-	port, _ := core.Config("~/Documents/sipt.ini")
+	port, _ := core.Config(".conf/sipt.ini")
 	listener, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		panic(err)
